@@ -1,0 +1,26 @@
+body {
+    margin: 20px;
+    background-color: white;
+    font-family:Tahoma, sans-serif;
+}
+
+.avatar {
+    width: 150px;
+}
+
+.card {
+    width: 400px;
+    margin: 50 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    background: burlywood;
+    color: brown;
+    border: 3px solid burlywood;
+    border-bottom: 6px solid ;
+}
+
+.border-brown {
+    border: 1px dotted blue;
+}
