@@ -27,6 +27,7 @@ const ColoringCanvas = () => {
   const [touchStartTime, setTouchStartTime] = useState(null);
   const [tool, setTool] = useState('bucket'); // 'bucket', 'pen', 'marker', 'pencil'
   const [brushSize, setBrushSize] = useState(5);
+  const [fillTolerance, setFillTolerance] = useState(30);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lastDrawPoint, setLastDrawPoint] = useState(null);
   const [drawingPoints, setDrawingPoints] = useState([]);
