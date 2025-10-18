@@ -512,12 +512,19 @@ const ColoringCanvas = () => {
                 <div 
                   ref={containerRef}
                   className="flex items-center justify-center p-4 relative overflow-hidden"
-                  style={{ minHeight: '70vh', cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : 'auto') }}
+                  style={{ 
+                    minHeight: '70vh', 
+                    cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : 'auto'),
+                    touchAction: zoom > 1 ? 'none' : 'auto'
+                  }}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
                   onMouseUp={handleMouseUp}
                   onMouseLeave={handleMouseUp}
                   onWheel={handleWheel}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                 >
                   {isLoading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
