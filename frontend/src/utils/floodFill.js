@@ -1,6 +1,6 @@
-// Flood fill algorithm for bucket fill tool
+// Improved flood fill algorithm with tolerance for shaded/gradient areas
 
-export const floodFill = (imageData, x, y, fillColor) => {
+export const floodFill = (imageData, x, y, fillColor, tolerance = 30) => {
   const data = imageData.data;
   const width = imageData.width;
   const height = imageData.height;
@@ -17,19 +17,37 @@ export const floodFill = (imageData, x, y, fillColor) => {
   const fillG = parseInt(fillColor.slice(3, 5), 16);
   const fillB = parseInt(fillColor.slice(5, 7), 16);
   
-  // If the target color is the same as fill color, do nothing
-  if (targetR === fillR && targetG === fillG && targetB === fillB) {
+  // If the target color is very similar to fill color, do nothing
+  const colorDistance = Math.sqrt(
+    Math.pow(targetR - fillR, 2) +
+    Math.pow(targetG - fillG, 2) +
+    Math.pow(targetB - fillB, 2)
+  );
+  
+  if (colorDistance < 10) {
     return imageData;
   }
+  
+  // Create a visited array to avoid revisiting pixels
+  const visited = new Uint8Array(width * height);
   
   // Stack for flood fill
   const pixelStack = [[x, y]];
   
   const matchesTarget = (pos) => {
-    return data[pos] === targetR &&
-           data[pos + 1] === targetG &&
-           data[pos + 2] === targetB &&
-           data[pos + 3] === targetA;
+    const r = data[pos];
+    const g = data[pos + 1];
+    const b = data[pos + 2];
+    const a = data[pos + 3];
+    
+    // Check if pixel is within tolerance of target color
+    const distance = Math.sqrt(
+      Math.pow(r - targetR, 2) +
+      Math.pow(g - targetG, 2) +
+      Math.pow(b - targetB, 2)
+    );
+    
+    return distance <= tolerance && a > 0;
   };
   
   const colorPixel = (pos) => {
@@ -46,12 +64,18 @@ export const floodFill = (imageData, x, y, fillColor) => {
       continue;
     }
     
-    const currentPos = (py * width + px) * 4;
+    const pixelIndex = py * width + px;
+    if (visited[pixelIndex]) {
+      continue;
+    }
+    
+    const currentPos = pixelIndex * 4;
     
     if (matchesTarget(currentPos)) {
+      visited[pixelIndex] = 1;
       colorPixel(currentPos);
       
-      // Add neighboring pixels
+      // Add neighboring pixels (4-way connectivity)
       pixelStack.push([px + 1, py]);
       pixelStack.push([px - 1, py]);
       pixelStack.push([px, py + 1]);
