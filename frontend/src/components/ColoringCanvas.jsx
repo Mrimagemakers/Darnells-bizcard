@@ -184,6 +184,87 @@ const ColoringCanvas = () => {
     }
   };
 
+  // Touch event handlers for mobile
+  const getTouchDistance = (touches) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  const getTouchCenter = (touches) => {
+    return {
+      x: (touches[0].clientX + touches[1].clientX) / 2,
+      y: (touches[0].clientY + touches[1].clientY) / 2
+    };
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStartTime(Date.now());
+    
+    if (e.touches.length === 2) {
+      // Two fingers - pinch to zoom
+      e.preventDefault();
+      const distance = getTouchDistance(e.touches);
+      setLastTouchDistance(distance);
+      setIsPanning(false);
+    } else if (e.touches.length === 1 && zoom > 1) {
+      // One finger when zoomed - pan
+      setIsPanning(true);
+      setPanStart({ 
+        x: e.touches[0].clientX - pan.x, 
+        y: e.touches[0].clientY - pan.y 
+      });
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2 && lastTouchDistance) {
+      // Pinch zoom
+      e.preventDefault();
+      const distance = getTouchDistance(e.touches);
+      const scale = distance / lastTouchDistance;
+      
+      setZoom(prev => {
+        const newZoom = Math.max(0.5, Math.min(3, prev * scale));
+        return newZoom;
+      });
+      
+      setLastTouchDistance(distance);
+    } else if (e.touches.length === 1 && isPanning && zoom > 1) {
+      // Pan with one finger
+      e.preventDefault();
+      setPan({
+        x: e.touches[0].clientX - panStart.x,
+        y: e.touches[0].clientY - panStart.y
+      });
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchDuration = Date.now() - touchStartTime;
+    
+    if (e.touches.length === 0) {
+      setLastTouchDistance(null);
+      
+      // If it was a quick tap (not a drag), treat it as a color fill
+      if (touchDuration < 300 && !isPanning && zoom === 1) {
+        // Let the click event handle it
+      }
+      
+      setIsPanning(false);
+    } else if (e.touches.length === 1) {
+      // Transition from two fingers to one
+      setLastTouchDistance(null);
+      if (zoom > 1) {
+        setIsPanning(true);
+        setPanStart({ 
+          x: e.touches[0].clientX - pan.x, 
+          y: e.touches[0].clientY - pan.y 
+        });
+      }
+    }
+  };
+
   const handleUndo = () => {
     if (currentStep > 0) {
       const canvas = canvasRef.current;
