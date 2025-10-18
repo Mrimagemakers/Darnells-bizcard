@@ -235,8 +235,8 @@ const ColoringCanvas = () => {
     // Get current image data
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
-    // Apply flood fill
-    const filledData = floodFill(imageData, x, y, selectedColor);
+    // Apply flood fill with tolerance
+    const filledData = floodFill(imageData, x, y, selectedColor, fillTolerance);
     ctx.putImageData(filledData, 0, 0);
     
     // Save to history
