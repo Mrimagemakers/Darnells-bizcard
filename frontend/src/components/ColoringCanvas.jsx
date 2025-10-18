@@ -563,8 +563,16 @@ const ColoringCanvas = () => {
                   
                   {/* Pan instruction */}
                   {zoom > 1 && !isPanning && (
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm">
-                      Click and drag to pan • Scroll to zoom
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm text-center">
+                      <span className="hidden sm:inline">Click and drag to pan • Scroll to zoom</span>
+                      <span className="sm:hidden">Drag to pan • Pinch to zoom</span>
+                    </div>
+                  )}
+                  
+                  {/* Pinch instruction for mobile */}
+                  {zoom === 1 && (
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-2 rounded-full text-xs sm:hidden">
+                      👆 Pinch to zoom
                     </div>
                   )}
                 </div>
