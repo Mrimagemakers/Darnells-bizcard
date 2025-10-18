@@ -253,6 +253,7 @@ const ColoringCanvas = () => {
     
     setIsDrawing(true);
     setLastDrawPoint(point);
+    setDrawingPoints([point]);
     drawOnCanvas(point.x, point.y);
   };
 
@@ -262,6 +263,18 @@ const ColoringCanvas = () => {
     const point = getCanvasPoint(e);
     if (!point) return;
     
+    // Throttle points to improve performance and smoothness
+    if (lastDrawPoint) {
+      const distance = Math.sqrt(
+        Math.pow(point.x - lastDrawPoint.x, 2) + 
+        Math.pow(point.y - lastDrawPoint.y, 2)
+      );
+      
+      // Only draw if moved enough pixels (reduces jitter)
+      if (distance < 1) return;
+    }
+    
+    setDrawingPoints(prev => [...prev, point]);
     drawOnCanvas(point.x, point.y);
     setLastDrawPoint(point);
   };
@@ -282,6 +295,7 @@ const ColoringCanvas = () => {
     }
     setIsDrawing(false);
     setLastDrawPoint(null);
+    setDrawingPoints([]);
   };
 
   const handleZoomIn = () => {
