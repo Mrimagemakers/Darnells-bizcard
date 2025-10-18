@@ -141,7 +141,7 @@ const ColoringCanvas = () => {
     return { x, y };
   };
 
-  const drawOnCanvas = (x, y) => {
+  const drawOnCanvas = (x, y, pressure = 1) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
@@ -157,19 +157,22 @@ const ColoringCanvas = () => {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     
-    // Set tool-specific properties
+    // Apply pressure sensitivity (for stylus/Apple Pencil)
+    const pressureMultiplier = pressure > 0 ? pressure : 1;
+    
+    // Set tool-specific properties with pressure sensitivity
     switch (tool) {
       case 'pen':
-        ctx.lineWidth = brushSize;
+        ctx.lineWidth = brushSize * pressureMultiplier;
         ctx.globalAlpha = 1;
         break;
       case 'marker':
-        ctx.lineWidth = brushSize * 1.5;
+        ctx.lineWidth = brushSize * 1.5 * pressureMultiplier;
         ctx.globalAlpha = 0.6;
         break;
       case 'pencil':
-        ctx.lineWidth = brushSize * 0.8;
-        ctx.globalAlpha = 0.8;
+        ctx.lineWidth = brushSize * 0.8 * pressureMultiplier;
+        ctx.globalAlpha = 0.5 + (0.3 * pressureMultiplier); // Vary opacity with pressure
         break;
       default:
         return;
