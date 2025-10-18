@@ -13,10 +13,15 @@ const ColoringCanvas = () => {
   const { toast } = useToast();
   
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const [selectedColor, setSelectedColor] = useState(colorPalette[0].hex);
   const [isLoading, setIsLoading] = useState(true);
   const [history, setHistory] = useState([]);
   const [currentStep, setCurrentStep] = useState(-1);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   
   const page = coloringPages.find(p => p.id === pageId);
 
