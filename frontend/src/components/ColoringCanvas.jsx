@@ -836,6 +836,31 @@ const ColoringCanvas = () => {
                   </button>
                 </div>
                 
+                {/* Fill Tolerance Slider */}
+                {tool === 'bucket' && (
+                  <div className="mt-4 p-3 bg-orange-50 rounded-lg border border-orange-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-semibold text-gray-700">Fill Tolerance</label>
+                      <span className="text-sm font-bold text-orange-600">{fillTolerance}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={fillTolerance}
+                      onChange={(e) => setFillTolerance(Number(e.target.value))}
+                      className="w-full h-2 bg-orange-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                    />
+                    <div className="flex justify-between text-xs text-gray-600 mt-1">
+                      <span>Exact</span>
+                      <span>Flexible</span>
+                    </div>
+                    <p className="text-xs text-gray-600 mt-2">
+                      Higher values fill similar shaded areas
+                    </p>
+                  </div>
+                )}
+                
                 {/* Brush Size Slider */}
                 {tool !== 'bucket' && (
                   <div className="mt-4 p-3 bg-gray-50 rounded-lg">
