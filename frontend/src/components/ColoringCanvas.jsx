@@ -718,8 +718,88 @@ const ColoringCanvas = () => {
             </div>
           </div>
 
-          {/* Color Palette */}
+          {/* Tools & Color Palette */}
           <div>
+            {/* Tool Selection */}
+            <Card className="shadow-xl mb-4">
+              <CardContent className="p-4">
+                <h3 className="font-bold text-lg mb-4 text-gray-800">Tools</h3>
+                <div className="grid grid-cols-4 gap-2">
+                  <button
+                    onClick={() => setTool('bucket')}
+                    className={`p-3 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                      tool === 'bucket'
+                        ? 'border-orange-500 bg-orange-50 text-orange-600'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                    title="Bucket Fill"
+                  >
+                    <Droplet className="h-6 w-6 mx-auto" />
+                    <p className="text-xs mt-1">Fill</p>
+                  </button>
+                  <button
+                    onClick={() => setTool('pen')}
+                    className={`p-3 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                      tool === 'pen'
+                        ? 'border-blue-500 bg-blue-50 text-blue-600'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                    title="Pen"
+                  >
+                    <Pen className="h-6 w-6 mx-auto" />
+                    <p className="text-xs mt-1">Pen</p>
+                  </button>
+                  <button
+                    onClick={() => setTool('marker')}
+                    className={`p-3 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                      tool === 'marker'
+                        ? 'border-purple-500 bg-purple-50 text-purple-600'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                    title="Marker"
+                  >
+                    <Highlighter className="h-6 w-6 mx-auto" />
+                    <p className="text-xs mt-1">Marker</p>
+                  </button>
+                  <button
+                    onClick={() => setTool('pencil')}
+                    className={`p-3 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                      tool === 'pencil'
+                        ? 'border-green-500 bg-green-50 text-green-600'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                    title="Pencil"
+                  >
+                    <Pencil className="h-6 w-6 mx-auto" />
+                    <p className="text-xs mt-1">Pencil</p>
+                  </button>
+                </div>
+                
+                {/* Brush Size Slider */}
+                {tool !== 'bucket' && (
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-semibold text-gray-700">Brush Size</label>
+                      <span className="text-sm font-bold text-gray-900">{brushSize}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1"
+                      max="30"
+                      value={brushSize}
+                      onChange={(e) => setBrushSize(Number(e.target.value))}
+                      className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>Fine</span>
+                      <span>Bold</span>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            
+            {/* Color Palette */}
             <Card className="shadow-xl">
               <CardContent className="p-4">
                 <h3 className="font-bold text-lg mb-4 text-gray-800">Color Palette</h3>
