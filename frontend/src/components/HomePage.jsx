@@ -4,6 +4,7 @@ import { categories } from '../data/mock';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Palette, BookOpen, Heart, Share2 } from 'lucide-react';
+import MusicPlayer from './MusicPlayer';
 
 const HomePage = () => {
   const navigate = useNavigate();
