@@ -120,16 +120,27 @@ const MusicPlayer = () => {
     <>
       <audio ref={audioRef} src={track.url} />
       
-      {/* Minimized Player */}
+      {/* Minimized Player - Large and Prominent */}
       {!isExpanded && (
-        <div className="fixed bottom-4 right-4" style={{ zIndex: 9999 }}>
-          <Button
-            onClick={() => setIsExpanded(true)}
-            className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-2xl"
-            size="icon"
-          >
-            <Music className={`h-6 w-6 ${isPlaying ? 'animate-pulse' : ''}`} />
-          </Button>
+        <div className="fixed bottom-20 right-6" style={{ zIndex: 9999 }}>
+          <div className="relative">
+            {/* Pulsing ring animation */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 animate-ping opacity-75"></div>
+            
+            {/* Main button */}
+            <Button
+              onClick={() => setIsExpanded(true)}
+              className="relative h-20 w-20 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-2xl border-4 border-white hover:scale-110 transition-transform duration-300"
+              size="icon"
+            >
+              <Music className={`h-10 w-10 ${isPlaying ? 'animate-pulse' : ''}`} />
+            </Button>
+            
+            {/* Label */}
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
+              🎵 Music
+            </div>
+          </div>
         </div>
       )}
 
