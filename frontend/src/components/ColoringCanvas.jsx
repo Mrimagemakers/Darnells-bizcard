@@ -371,9 +371,40 @@ const ColoringCanvas = () => {
             <Button 
               variant="outline"
               size="sm"
+              onClick={handleZoomOut}
+              disabled={zoom <= 0.5}
+              className="border-blue-300 hover:bg-blue-50"
+              title="Zoom Out"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="outline"
+              size="sm"
+              onClick={handleZoomReset}
+              disabled={zoom === 1}
+              className="border-blue-300 hover:bg-blue-50"
+              title="Reset Zoom"
+            >
+              <Maximize2 className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="outline"
+              size="sm"
+              onClick={handleZoomIn}
+              disabled={zoom >= 3}
+              className="border-blue-300 hover:bg-blue-50"
+              title="Zoom In"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="outline"
+              size="sm"
               onClick={handleUndo}
               disabled={currentStep <= 0}
               className="border-orange-300 hover:bg-orange-50"
+              title="Undo"
             >
               <Undo className="h-4 w-4" />
             </Button>
@@ -383,6 +414,7 @@ const ColoringCanvas = () => {
               onClick={handleClear}
               disabled={currentStep <= 0}
               className="border-red-300 hover:bg-red-50"
+              title="Clear"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
