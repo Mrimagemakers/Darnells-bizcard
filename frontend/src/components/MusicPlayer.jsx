@@ -146,7 +146,7 @@ const MusicPlayer = () => {
 
       {/* Expanded Player */}
       {isExpanded && (
-        <div className="fixed bottom-4 right-4 w-80 sm:w-96" style={{ zIndex: 9999 }}>
+        <div className="fixed bottom-20 right-6 w-80 sm:w-96" style={{ zIndex: 9999 }}>
           <Card className="shadow-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
             <CardContent className="p-4">
               {/* Header */}
