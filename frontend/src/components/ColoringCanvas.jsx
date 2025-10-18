@@ -101,7 +101,7 @@ const ColoringCanvas = () => {
   }, [page, toast]);
 
   const handleCanvasClick = (e) => {
-    if (isLoading) return;
+    if (isLoading || isPanning) return;
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -111,11 +111,14 @@ const ColoringCanvas = () => {
     
     const rect = canvas.getBoundingClientRect();
     
-    // Calculate click position relative to canvas
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const x = Math.floor((e.clientX - rect.left) * scaleX);
-    const y = Math.floor((e.clientY - rect.top) * scaleY);
+    // Calculate click position relative to canvas accounting for zoom and pan
+    const scaleX = canvas.width / (rect.width / zoom);
+    const scaleY = canvas.height / (rect.height / zoom);
+    const x = Math.floor(((e.clientX - rect.left) / zoom - pan.x / zoom) * scaleX);
+    const y = Math.floor(((e.clientY - rect.top) / zoom - pan.y / zoom) * scaleY);
+    
+    // Boundary check
+    if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) return;
     
     // Get current image data
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -129,6 +132,54 @@ const ColoringCanvas = () => {
     newHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     setHistory(newHistory);
     setCurrentStep(newHistory.length - 1);
+  };
+
+  const handleZoomIn = () => {
+    setZoom(prev => Math.min(prev + 0.25, 3));
+  };
+
+  const handleZoomOut = () => {
+    setZoom(prev => {
+      const newZoom = Math.max(prev - 0.25, 0.5);
+      if (newZoom === 1) {
+        setPan({ x: 0, y: 0 });
+      }
+      return newZoom;
+    });
+  };
+
+  const handleZoomReset = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = (e) => {
+    if (zoom > 1) {
+      setIsPanning(true);
+      setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isPanning && zoom > 1) {
+      setPan({
+        x: e.clientX - panStart.x,
+        y: e.clientY - panStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsPanning(false);
+  };
+
+  const handleWheel = (e) => {
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      handleZoomIn();
+    } else {
+      handleZoomOut();
+    }
   };
 
   const handleUndo = () => {
