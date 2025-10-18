@@ -122,7 +122,7 @@ const MusicPlayer = () => {
       
       {/* Minimized Player */}
       {!isExpanded && (
-        <div className="fixed bottom-4 right-4 z-50">
+        <div className="fixed bottom-4 right-4" style={{ zIndex: 9999 }}>
           <Button
             onClick={() => setIsExpanded(true)}
             className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-2xl"
@@ -135,7 +135,7 @@ const MusicPlayer = () => {
 
       {/* Expanded Player */}
       {isExpanded && (
-        <div className="fixed bottom-4 right-4 z-50 w-80 sm:w-96">
+        <div className="fixed bottom-4 right-4 w-80 sm:w-96" style={{ zIndex: 9999 }}>
           <Card className="shadow-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
             <CardContent className="p-4">
               {/* Header */}
