@@ -31,6 +31,8 @@ const ColoringCanvas = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [lastDrawPoint, setLastDrawPoint] = useState(null);
   const [drawingPoints, setDrawingPoints] = useState([]);
+  const [recentColors, setRecentColors] = useState([]);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   
   const page = coloringPages.find(p => p.id === pageId);
 
