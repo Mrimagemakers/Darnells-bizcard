@@ -837,7 +837,11 @@ const ColoringCanvas = () => {
                 
                 <div className="mt-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800">
-                    <strong>Tip:</strong> Click on any area of the image to fill it with the selected color!
+                    <strong>Tip:</strong> {
+                      tool === 'bucket' 
+                        ? 'Click on any area to fill it with color!' 
+                        : 'Draw on the image with your selected tool!'
+                    }
                   </p>
                 </div>
               </CardContent>
