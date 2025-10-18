@@ -358,17 +358,27 @@ const ColoringCanvas = () => {
             </Card>
             
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
               <Button 
                 onClick={handleDownload}
-                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
+                disabled={isLoading}
+                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
               >
                 <Download className="mr-2 h-5 w-5" />
                 Download
               </Button>
               <Button 
+                onClick={handleShare}
+                disabled={isLoading}
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white"
+              >
+                <Share2 className="mr-2 h-5 w-5" />
+                Share
+              </Button>
+              <Button 
                 onClick={handleSaveToGallery}
-                className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                disabled={isLoading}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
               >
                 <Heart className="mr-2 h-5 w-5" />
                 Save to Gallery
