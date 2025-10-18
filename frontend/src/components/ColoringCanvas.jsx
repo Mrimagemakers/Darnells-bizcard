@@ -266,13 +266,18 @@ const ColoringCanvas = () => {
   const handleCanvasMouseDown = (e) => {
     if (isLoading || isPanning || tool === 'bucket') return;
     
+    e.preventDefault(); // Prevent default touch behavior
+    
     const point = getCanvasPoint(e);
     if (!point) return;
+    
+    // Get pressure from stylus/Apple Pencil (PointerEvent)
+    const pressure = e.pressure || 1;
     
     setIsDrawing(true);
     setLastDrawPoint(point);
     setDrawingPoints([point]);
-    drawOnCanvas(point.x, point.y);
+    drawOnCanvas(point.x, point.y, pressure);
   };
 
   const handleCanvasMouseMove = (e) => {
@@ -280,6 +285,9 @@ const ColoringCanvas = () => {
     
     const point = getCanvasPoint(e);
     if (!point) return;
+    
+    // Get pressure from stylus/Apple Pencil
+    const pressure = e.pressure || 1;
     
     // Throttle points to improve performance and smoothness
     if (lastDrawPoint) {
@@ -289,11 +297,11 @@ const ColoringCanvas = () => {
       );
       
       // Only draw if moved enough pixels (reduces jitter)
-      if (distance < 1) return;
+      if (distance < 0.5) return; // Even more sensitive for stylus
     }
     
     setDrawingPoints(prev => [...prev, point]);
-    drawOnCanvas(point.x, point.y);
+    drawOnCanvas(point.x, point.y, pressure);
     setLastDrawPoint(point);
   };
 
