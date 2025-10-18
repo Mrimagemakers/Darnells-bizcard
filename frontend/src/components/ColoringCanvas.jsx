@@ -902,12 +902,56 @@ const ColoringCanvas = () => {
             {/* Color Palette */}
             <Card className="shadow-xl">
               <CardContent className="p-4">
-                <h3 className="font-bold text-lg mb-4 text-gray-800">Color Palette</h3>
-                <div className="grid grid-cols-4 gap-3">
+                <h3 className="font-bold text-lg mb-4 text-gray-800">Colors</h3>
+                
+                {/* Custom Color Picker */}
+                <div className="mb-4 p-3 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg border-2 border-purple-200">
+                  <label className="text-sm font-semibold text-gray-700 mb-2 block">Custom Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={selectedColor}
+                      onChange={(e) => handleColorSelect(e.target.value)}
+                      className="w-full h-12 rounded-lg cursor-pointer border-2 border-gray-300"
+                    />
+                    <div 
+                      className="w-12 h-12 rounded-lg border-2 border-gray-300 flex-shrink-0"
+                      style={{ backgroundColor: selectedColor }}
+                      title="Current Color"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-600 mt-2">Click to pick any color</p>
+                </div>
+                
+                {/* Recent Colors */}
+                {recentColors.length > 0 && (
+                  <div className="mb-4">
+                    <label className="text-sm font-semibold text-gray-700 mb-2 block">Recent Colors</label>
+                    <div className="grid grid-cols-8 gap-2">
+                      {recentColors.map((color, index) => (
+                        <button
+                          key={`recent-${index}`}
+                          onClick={() => handleColorSelect(color)}
+                          className={`w-full aspect-square rounded-lg transition-all duration-200 hover:scale-110 border-2 ${
+                            selectedColor === color 
+                              ? 'ring-4 ring-orange-500 ring-offset-1 scale-110 border-orange-500' 
+                              : 'border-gray-200 hover:border-gray-400'
+                          }`}
+                          style={{ backgroundColor: color }}
+                          title="Recent Color"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Preset Color Palette */}
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Preset Colors</label>
+                <div className="grid grid-cols-6 gap-2 max-h-80 overflow-y-auto pr-2">
                   {colorPalette.map((color) => (
                     <button
                       key={color.hex}
-                      onClick={() => setSelectedColor(color.hex)}
+                      onClick={() => handleColorSelect(color.hex)}
                       className={`w-full aspect-square rounded-lg transition-all duration-200 hover:scale-110 ${
                         selectedColor === color.hex 
                           ? 'ring-4 ring-orange-500 ring-offset-2 scale-110' 
