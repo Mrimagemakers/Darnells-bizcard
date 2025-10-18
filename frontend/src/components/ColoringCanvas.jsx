@@ -152,31 +152,134 @@ const ColoringCanvas = () => {
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
-    const link = document.createElement('a');
-    link.download = `coloring-odyssey-${pageId}-${Date.now()}.png`;
-    link.href = canvas.toDataURL();
-    link.click();
+    if (!canvas) {
+      toast({
+        title: 'Error',
+        description: 'Canvas not ready. Please try again.',
+        variant: 'destructive'
+      });
+      return;
+    }
     
-    toast({
-      title: 'Downloaded!',
-      description: 'Your artwork has been saved to your device'
-    });
+    try {
+      const link = document.createElement('a');
+      link.download = `coloring-odyssey-${pageId}-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: 'Downloaded!',
+        description: 'Your artwork has been saved to your device'
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: 'Download failed',
+        description: 'Unable to download the image. Please try again.',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      toast({
+        title: 'Error',
+        description: 'Canvas not ready. Please try again.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    try {
+      // Convert canvas to blob
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          toast({
+            title: 'Error',
+            description: 'Unable to create image for sharing',
+            variant: 'destructive'
+          });
+          return;
+        }
+        
+        const file = new File([blob], `coloring-odyssey-${pageId}.png`, { type: 'image/png' });
+        
+        // Check if Web Share API is available
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'My Coloring Odyssey Artwork',
+              text: `Check out my colored artwork: ${page.name}`
+            });
+            
+            toast({
+              title: 'Shared!',
+              description: 'Your artwork has been shared'
+            });
+          } catch (shareError) {
+            if (shareError.name !== 'AbortError') {
+              console.error('Share error:', shareError);
+              // Fallback to download
+              handleDownload();
+            }
+          }
+        } else {
+          // Fallback: Download the image
+          toast({
+            title: 'Share not supported',
+            description: 'Downloaded image instead. You can share it manually.',
+            variant: 'default'
+          });
+          handleDownload();
+        }
+      }, 'image/png');
+    } catch (error) {
+      console.error('Share error:', error);
+      toast({
+        title: 'Share failed',
+        description: 'Unable to share. Try downloading instead.',
+        variant: 'destructive'
+      });
+    }
   };
 
   const handleSaveToGallery = () => {
     const canvas = canvasRef.current;
-    const dataUrl = canvas.toDataURL();
+    if (!canvas) {
+      toast({
+        title: 'Error',
+        description: 'Canvas not ready. Please try again.',
+        variant: 'destructive'
+      });
+      return;
+    }
     
-    saveArtwork({
-      pageId,
-      pageName: page.name,
-      imageData: dataUrl
-    });
-    
-    toast({
-      title: 'Saved to Gallery!',
-      description: 'View it in your gallery anytime'
-    });
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      saveArtwork({
+        pageId,
+        pageName: page.name,
+        imageData: dataUrl
+      });
+      
+      toast({
+        title: 'Saved to Gallery!',
+        description: 'View it in your gallery anytime'
+      });
+    } catch (error) {
+      console.error('Save error:', error);
+      toast({
+        title: 'Save failed',
+        description: 'Unable to save to gallery. Please try again.',
+        variant: 'destructive'
+      });
+    }
   };
 
   if (!page) {
