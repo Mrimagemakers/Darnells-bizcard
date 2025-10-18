@@ -647,10 +647,17 @@ const ColoringCanvas = () => {
                     <canvas
                       ref={canvasRef}
                       onClick={handleCanvasClick}
+                      onMouseDown={handleCanvasMouseDown}
+                      onMouseMove={handleCanvasMouseMove}
+                      onMouseUp={handleCanvasMouseUp}
+                      onMouseLeave={handleCanvasMouseUp}
+                      onTouchStart={handleCanvasMouseDown}
+                      onTouchMove={handleCanvasMouseMove}
+                      onTouchEnd={handleCanvasMouseUp}
                       className="border-2 border-gray-200 rounded-lg"
                       style={{ 
                         display: isLoading ? 'none' : 'block',
-                        cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : 'crosshair'),
+                        cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : (tool === 'bucket' ? 'crosshair' : 'crosshair')),
                         maxWidth: '100%',
                         height: 'auto'
                       }}
