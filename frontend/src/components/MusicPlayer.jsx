@@ -8,20 +8,23 @@ const tracks = [
     id: 1,
     name: 'Peaceful Journey',
     artist: 'Relaxing Sounds',
-    // Using a placeholder - in production, replace with actual music file URLs
-    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+    description: 'Gentle ambient sounds for deep relaxation',
+    // Free music from Bensound (royalty-free)
+    url: 'https://www.bensound.com/bensound-music/bensound-relaxing.mp3'
   },
   {
     id: 2,
     name: 'Calm Waters',
     artist: 'Meditation Vibes',
-    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+    description: 'Flowing melodies for peaceful coloring',
+    url: 'https://www.bensound.com/bensound-music/bensound-slowmotion.mp3'
   },
   {
     id: 3,
     name: 'Zen Garden',
     artist: 'Tranquil Moments',
-    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+    description: 'Serene tones for mindful creativity',
+    url: 'https://www.bensound.com/bensound-music/bensound-dreams.mp3'
   }
 ];
 
