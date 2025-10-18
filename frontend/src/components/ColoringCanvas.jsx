@@ -106,8 +106,71 @@ const ColoringCanvas = () => {
     
   }, [page, toast]);
 
+  const getCanvasPoint = (e) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
+    
+    if (clientX === undefined || clientY === undefined) return null;
+    
+    const scaleX = canvas.width / (rect.width / zoom);
+    const scaleY = canvas.height / (rect.height / zoom);
+    const x = Math.floor(((clientX - rect.left) / zoom - pan.x / zoom) * scaleX);
+    const y = Math.floor(((clientY - rect.top) / zoom - pan.y / zoom) * scaleY);
+    
+    return { x, y };
+  };
+
+  const drawOnCanvas = (x, y) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.strokeStyle = selectedColor;
+    ctx.fillStyle = selectedColor;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    // Set tool-specific properties
+    switch (tool) {
+      case 'pen':
+        ctx.lineWidth = brushSize;
+        ctx.globalAlpha = 1;
+        break;
+      case 'marker':
+        ctx.lineWidth = brushSize * 1.5;
+        ctx.globalAlpha = 0.6;
+        break;
+      case 'pencil':
+        ctx.lineWidth = brushSize * 0.8;
+        ctx.globalAlpha = 0.8;
+        break;
+      default:
+        return;
+    }
+    
+    if (lastDrawPoint) {
+      ctx.beginPath();
+      ctx.moveTo(lastDrawPoint.x, lastDrawPoint.y);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    } else {
+      // Draw a dot for single click
+      ctx.beginPath();
+      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    ctx.globalAlpha = 1;
+  };
+
   const handleCanvasClick = (e) => {
-    if (isLoading || isPanning) return;
+    if (isLoading || isPanning || tool !== 'bucket') return;
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -115,13 +178,10 @@ const ColoringCanvas = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    const rect = canvas.getBoundingClientRect();
+    const point = getCanvasPoint(e);
+    if (!point) return;
     
-    // Calculate click position relative to canvas accounting for zoom and pan
-    const scaleX = canvas.width / (rect.width / zoom);
-    const scaleY = canvas.height / (rect.height / zoom);
-    const x = Math.floor(((e.clientX - rect.left) / zoom - pan.x / zoom) * scaleX);
-    const y = Math.floor(((e.clientY - rect.top) / zoom - pan.y / zoom) * scaleY);
+    const { x, y } = point;
     
     // Boundary check
     if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) return;
@@ -138,6 +198,45 @@ const ColoringCanvas = () => {
     newHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     setHistory(newHistory);
     setCurrentStep(newHistory.length - 1);
+  };
+
+  const handleCanvasMouseDown = (e) => {
+    if (isLoading || isPanning || tool === 'bucket') return;
+    
+    const point = getCanvasPoint(e);
+    if (!point) return;
+    
+    setIsDrawing(true);
+    setLastDrawPoint(point);
+    drawOnCanvas(point.x, point.y);
+  };
+
+  const handleCanvasMouseMove = (e) => {
+    if (!isDrawing || tool === 'bucket') return;
+    
+    const point = getCanvasPoint(e);
+    if (!point) return;
+    
+    drawOnCanvas(point.x, point.y);
+    setLastDrawPoint(point);
+  };
+
+  const handleCanvasMouseUp = () => {
+    if (isDrawing && tool !== 'bucket') {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          // Save to history
+          const newHistory = history.slice(0, currentStep + 1);
+          newHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+          setHistory(newHistory);
+          setCurrentStep(newHistory.length - 1);
+        }
+      }
+    }
+    setIsDrawing(false);
+    setLastDrawPoint(null);
   };
 
   const handleZoomIn = () => {
