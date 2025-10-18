@@ -152,6 +152,7 @@ export const coloringPages = [
 ];
 
 export const colorPalette = [
+  // Primary Colors
   { name: 'Red', hex: '#FF3B30' },
   { name: 'Pink', hex: '#FF2D55' },
   { name: 'Purple', hex: '#AF52DE' },
@@ -162,12 +163,40 @@ export const colorPalette = [
   { name: 'Yellow', hex: '#FFCC00' },
   { name: 'Orange', hex: '#FF9500' },
   { name: 'Brown', hex: '#A2845E' },
-  { name: 'Gray', hex: '#8E8E93' },
-  { name: 'Black', hex: '#000000' },
-  { name: 'White', hex: '#FFFFFF' },
-  { name: 'Peach', hex: '#FFB8A1' },
+  
+  // Light/Pastel Colors
+  { name: 'Light Pink', hex: '#FFB6C1' },
   { name: 'Lavender', hex: '#E6D5FF' },
-  { name: 'Mint', hex: '#B8F4D5' }
+  { name: 'Light Blue', hex: '#ADD8E6' },
+  { name: 'Mint', hex: '#B8F4D5' },
+  { name: 'Peach', hex: '#FFB8A1' },
+  { name: 'Cream', hex: '#FFFACD' },
+  { name: 'Light Green', hex: '#90EE90' },
+  { name: 'Rose', hex: '#FFE4E1' },
+  
+  // Dark/Bold Colors
+  { name: 'Dark Red', hex: '#8B0000' },
+  { name: 'Maroon', hex: '#800000' },
+  { name: 'Navy', hex: '#000080' },
+  { name: 'Dark Green', hex: '#006400' },
+  { name: 'Indigo', hex: '#4B0082' },
+  { name: 'Crimson', hex: '#DC143C' },
+  
+  // Neutrals
+  { name: 'Black', hex: '#000000' },
+  { name: 'Dark Gray', hex: '#4A4A4A' },
+  { name: 'Gray', hex: '#8E8E93' },
+  { name: 'Light Gray', hex: '#D3D3D3' },
+  { name: 'White', hex: '#FFFFFF' },
+  { name: 'Beige', hex: '#F5F5DC' },
+  
+  // Vibrant Colors
+  { name: 'Hot Pink', hex: '#FF69B4' },
+  { name: 'Lime', hex: '#00FF00' },
+  { name: 'Aqua', hex: '#00FFFF' },
+  { name: 'Magenta', hex: '#FF00FF' },
+  { name: 'Gold', hex: '#FFD700' },
+  { name: 'Coral', hex: '#FF7F50' }
 ];
 
 // Mock saved gallery data (stored in localStorage)
