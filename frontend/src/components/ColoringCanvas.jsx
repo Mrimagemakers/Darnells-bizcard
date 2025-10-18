@@ -7,6 +7,7 @@ import { Card, CardContent } from './ui/card';
 import { ArrowLeft, Download, Undo, Trash2, Heart, Share2, ZoomIn, ZoomOut, Maximize2, Droplet, Pen, Highlighter, Pencil } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import MusicPlayer from './MusicPlayer';
+import MindfulnessPanel from './MindfulnessPanel';
 
 const ColoringCanvas = () => {
   const navigate = useNavigate();
