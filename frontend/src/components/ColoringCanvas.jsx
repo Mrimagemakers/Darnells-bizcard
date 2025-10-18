@@ -24,6 +24,10 @@ const ColoringCanvas = () => {
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [lastTouchDistance, setLastTouchDistance] = useState(null);
   const [touchStartTime, setTouchStartTime] = useState(null);
+  const [tool, setTool] = useState('bucket'); // 'bucket', 'pen', 'marker', 'pencil'
+  const [brushSize, setBrushSize] = useState(5);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [lastDrawPoint, setLastDrawPoint] = useState(null);
   
   const page = coloringPages.find(p => p.id === pageId);
 
