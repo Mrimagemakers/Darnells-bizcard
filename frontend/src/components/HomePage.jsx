@@ -11,6 +11,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+      <MusicPlayer />
       {/* Hero Section with Background */}
       <div 
         className="relative bg-cover bg-center bg-no-repeat"
