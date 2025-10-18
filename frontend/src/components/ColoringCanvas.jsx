@@ -4,7 +4,7 @@ import { coloringPages, colorPalette, saveArtwork } from '../data/mock';
 import { floodFill } from '../utils/floodFill';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
-import { ArrowLeft, Download, Undo, Trash2, Heart, Share2, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import { ArrowLeft, Download, Undo, Trash2, Heart, Share2, ZoomIn, ZoomOut, Maximize2, Droplet, Pen, Highlighter, Pencil } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 
 const ColoringCanvas = () => {
