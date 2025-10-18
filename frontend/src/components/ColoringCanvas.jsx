@@ -36,6 +36,18 @@ const ColoringCanvas = () => {
   
   const page = coloringPages.find(p => p.id === pageId);
 
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    
+    // Add to recent colors if not already there
+    if (!recentColors.includes(color)) {
+      setRecentColors(prev => {
+        const updated = [color, ...prev];
+        return updated.slice(0, 8); // Keep only last 8 colors
+      });
+    }
+  };
+
   useEffect(() => {
     if (!page) {
       console.log('No page found');
