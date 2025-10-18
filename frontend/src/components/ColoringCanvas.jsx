@@ -138,6 +138,10 @@ const ColoringCanvas = () => {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     
+    // Enable anti-aliasing for smoother lines
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
     // Set tool-specific properties
     switch (tool) {
       case 'pen':
@@ -157,10 +161,49 @@ const ColoringCanvas = () => {
     }
     
     if (lastDrawPoint) {
-      ctx.beginPath();
-      ctx.moveTo(lastDrawPoint.x, lastDrawPoint.y);
-      ctx.lineTo(x, y);
-      ctx.stroke();
+      // Smooth drawing using quadratic curves for better interpolation
+      const points = drawingPoints;
+      
+      if (points.length >= 2) {
+        // Use quadratic curve for smoother lines
+        const p0 = points[points.length - 2];
+        const p1 = points[points.length - 1];
+        const midPoint = {
+          x: (p0.x + p1.x) / 2,
+          y: (p0.y + p1.y) / 2
+        };
+        
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+        ctx.stroke();
+      } else {
+        // Fallback to line for first segment
+        ctx.beginPath();
+        ctx.moveTo(lastDrawPoint.x, lastDrawPoint.y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+      
+      // Interpolate points for very smooth drawing
+      const distance = Math.sqrt(
+        Math.pow(x - lastDrawPoint.x, 2) + 
+        Math.pow(y - lastDrawPoint.y, 2)
+      );
+      
+      // Add intermediate points for ultra-smooth lines
+      if (distance > 2) {
+        const steps = Math.ceil(distance / 2);
+        for (let i = 1; i <= steps; i++) {
+          const t = i / steps;
+          const ix = lastDrawPoint.x + (x - lastDrawPoint.x) * t;
+          const iy = lastDrawPoint.y + (y - lastDrawPoint.y) * t;
+          
+          ctx.beginPath();
+          ctx.arc(ix, iy, brushSize / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
     } else {
       // Draw a dot for single click
       ctx.beginPath();
