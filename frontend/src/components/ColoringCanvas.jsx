@@ -426,7 +426,16 @@ const ColoringCanvas = () => {
           <div className="lg:col-span-3">
             <Card className="overflow-hidden shadow-2xl">
               <CardContent className="p-0 bg-white">
-                <div className="flex items-center justify-center p-4 relative">
+                <div 
+                  ref={containerRef}
+                  className="flex items-center justify-center p-4 relative overflow-hidden"
+                  style={{ minHeight: '70vh', cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : 'auto') }}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}
+                  onWheel={handleWheel}
+                >
                   {isLoading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
                       <div className="text-center">
@@ -435,12 +444,39 @@ const ColoringCanvas = () => {
                       </div>
                     </div>
                   )}
-                  <canvas
-                    ref={canvasRef}
-                    onClick={handleCanvasClick}
-                    className="cursor-crosshair border-2 border-gray-200 rounded-lg max-w-full h-auto"
-                    style={{ maxHeight: '70vh', display: isLoading ? 'none' : 'block' }}
-                  />
+                  <div
+                    style={{
+                      transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
+                      transformOrigin: 'center center',
+                      transition: isPanning ? 'none' : 'transform 0.1s ease-out'
+                    }}
+                  >
+                    <canvas
+                      ref={canvasRef}
+                      onClick={handleCanvasClick}
+                      className="border-2 border-gray-200 rounded-lg"
+                      style={{ 
+                        display: isLoading ? 'none' : 'block',
+                        cursor: isPanning ? 'grabbing' : (zoom > 1 ? 'grab' : 'crosshair'),
+                        maxWidth: '100%',
+                        height: 'auto'
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Zoom level indicator */}
+                  {zoom !== 1 && (
+                    <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      {Math.round(zoom * 100)}%
+                    </div>
+                  )}
+                  
+                  {/* Pan instruction */}
+                  {zoom > 1 && !isPanning && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm">
+                      Click and drag to pan • Scroll to zoom
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
