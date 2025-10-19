@@ -179,29 +179,29 @@ const MindfulnessPanel = () => {
                 </ul>
               </div>
 
-              {/* Buttons */}
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowBreathing(true)}
-                  className="border-blue-300 hover:bg-blue-50 text-blue-700"
-                >
-                  <Sparkles className="h-3 w-3 mr-1" />
-                  Breathe
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentQuote((prev) => (prev + 1) % mindfulnessQuotes.length)}
-                  className="border-green-300 hover:bg-green-50 text-green-700"
-                >
-                  Next Quote
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
+                {/* Buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowBreathing(true)}
+                    className="border-blue-300 hover:bg-blue-50 text-blue-700"
+                  >
+                    <Sparkles className="h-3 w-3 mr-1" />
+                    Breathe
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentQuote((prev) => (prev + 1) % mindfulnessQuotes.length)}
+                    className="border-green-300 hover:bg-green-50 text-green-700"
+                  >
+                    Next Quote
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
               {/* Breathing Exercise */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-3">
