@@ -283,17 +283,17 @@ const MindfulnessPanel = () => {
               </div>
             </>
           )}
+          
+          {/* Helpful Tip */}
+          {!showBreathing && (
+            <div className="mt-2 text-center">
+              <p className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full inline-block">
+                💚 New message daily
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
-      
-      {/* Helpful Tip */}
-      {!showBreathing && (
-        <div className="mt-2 text-center">
-          <p className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full inline-block">
-            💚 New message daily
-          </p>
-        </div>
-      )}
     </div>
   );
 };
