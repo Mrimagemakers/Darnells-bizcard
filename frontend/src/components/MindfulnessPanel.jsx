@@ -277,25 +277,27 @@ const MindfulnessPanel = () => {
                   {isBreathing ? 'Stop' : 'Start Breathing'}
                 </Button>
 
-                <p className="text-xs text-center text-gray-600 mt-3">
-                  Follow the circle and breathe with intention
+                  <p className="text-xs text-center text-gray-600 mt-3">
+                    Follow the circle and breathe with intention
+                  </p>
+                </div>
+              </>
+            )}
+            
+            {/* Helpful Tip */}
+            {!showBreathing && (
+              <div className="mt-2 text-center">
+                <p className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full inline-block">
+                  💚 New message daily
                 </p>
               </div>
-            </>
-          )}
-          
-          {/* Helpful Tip */}
-          {!showBreathing && (
-            <div className="mt-2 text-center">
-              <p className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full inline-block">
-                💚 New message daily
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    )}
+  </>
+);
 };
 
 export default MindfulnessPanel;
