@@ -45,12 +45,28 @@ const breathingExercises = [
 ];
 
 const MindfulnessPanel = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [hasSeenToday, setHasSeenToday] = useState(false);
   const [currentQuote, setCurrentQuote] = useState(0);
   const [showBreathing, setShowBreathing] = useState(false);
   const [breathingPhase, setBreathingPhase] = useState('inhale');
   const [breathingCount, setBreathingCount] = useState(4);
   const [isBreathing, setIsBreathing] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState(breathingExercises[0]);
+
+  // Check if user has seen the panel today
+  useEffect(() => {
+    const lastSeen = localStorage.getItem('mindfulness_last_seen');
+    const today = new Date().toDateString();
+    
+    if (lastSeen !== today) {
+      // Show panel for first time today
+      setIsExpanded(true);
+      localStorage.setItem('mindfulness_last_seen', today);
+    }
+    
+    setHasSeenToday(lastSeen === today);
+  }, []);
 
   useEffect(() => {
     // Rotate quotes every 2 minutes
