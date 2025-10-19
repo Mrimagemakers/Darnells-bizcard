@@ -135,12 +135,25 @@ const MindfulnessPanel = () => {
             <CardContent className="p-4">
           {!showBreathing ? (
             <>
-              {/* Mindfulness Quote */}
-              <div className="mb-4">
-                <div className="flex items-center gap-2 mb-3">
+              {/* Header with Close Button */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
                   <Brain className="h-5 w-5 text-green-600" />
                   <h3 className="font-bold text-green-800">Mindful Moment</h3>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClose}
+                  className="h-8 w-8 p-0 hover:bg-red-100"
+                  title="Minimize"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Mindfulness Quote */}
+              <div className="mb-4">
                 
                 <div className="bg-white p-4 rounded-lg border-2 border-green-200 mb-3">
                   <p className="text-sm text-gray-700 leading-relaxed mb-2">
