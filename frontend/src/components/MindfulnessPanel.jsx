@@ -133,8 +133,8 @@ const MindfulnessPanel = () => {
         <div className="fixed top-20 left-4 z-50 max-w-xs animate-in slide-in-from-left duration-300">
           <Card className="shadow-2xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-blue-50">
             <CardContent className="p-4">
-          {!showBreathing ? (
-            <>
+              {!showBreathing ? (
+                <>
               {/* Header with Close Button */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
