@@ -106,10 +106,33 @@ const MindfulnessPanel = () => {
 
   const quote = mindfulnessQuotes[currentQuote];
 
+  const handleClose = () => {
+    setIsExpanded(false);
+    setShowBreathing(false);
+    setIsBreathing(false);
+  };
+
   return (
-    <div className="fixed top-20 left-4 z-50 max-w-xs">
-      <Card className="shadow-2xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-blue-50">
-        <CardContent className="p-4">
+    <>
+      {/* Minimized Button */}
+      {!isExpanded && (
+        <div className="fixed top-20 left-4 z-50">
+          <Button
+            onClick={() => setIsExpanded(true)}
+            className="h-14 w-14 rounded-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-2xl border-4 border-white hover:scale-110 transition-transform duration-300"
+            size="icon"
+            title="Mindfulness & Mental Health"
+          >
+            <Heart className={`h-7 w-7 ${isBreathing ? 'animate-pulse' : ''}`} />
+          </Button>
+        </div>
+      )}
+
+      {/* Expanded Panel */}
+      {isExpanded && (
+        <div className="fixed top-20 left-4 z-50 max-w-xs animate-in slide-in-from-left duration-300">
+          <Card className="shadow-2xl border-2 border-green-200 bg-gradient-to-br from-green-50 to-blue-50">
+            <CardContent className="p-4">
           {!showBreathing ? (
             <>
               {/* Mindfulness Quote */}
